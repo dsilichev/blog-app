@@ -1,6 +1,7 @@
 import { addUser } from './add-user';
 import { getUser } from './get-user';
-
+import { createSession } from './create-session';
+ 
 export const server = {
   async authorize(authLogin, authPassword) {
     const user = await getUser(authLogin);
@@ -19,20 +20,9 @@ export const server = {
       };
     }
 
-    const session = {
-      logout() {
-        Object.keys(session).forEach((key) => {
-          delete session[key];
-        })
-      },
-      removeComment() {
-        console.log('Удаление комментария');
-      },
-    };
-
     return {
       error: null,
-      res: session,
+      res: createSession(user.role_id),
     };
   },
   async registration(regLogin, regPassword) {
@@ -47,20 +37,9 @@ export const server = {
 
     await addUser(regLogin, regPassword);
 
-    const session = {
-      logout() {
-        Object.keys(session).forEach((key) => {
-          delete session[key];
-        })
-      },
-      removeComment() {
-        console.log('Удаление комментария');
-      },
-    };
-
     return {
       error: null,
-      res: session,
+      res: createSession(user.role_id),
     }
   },
 };
