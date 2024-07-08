@@ -2,12 +2,14 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../bff';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Input, Button, H2 } from '../../components';
 import { setUser } from '../../actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
+import { selectUserRole } from '../../selectors';
+import { ROLE } from '../../constants';
 
 const authFormSchema = yup.object().shape({
   login: yup
@@ -40,6 +42,7 @@ const ErrorMessage = styled.div`
 export const AuthorizationContainer = ({ className }) => {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -54,6 +57,22 @@ export const AuthorizationContainer = ({ className }) => {
 
   const dispatch = useDispatch();
 
+  const store = useStore();
+
+  const roleId = useSelector(selectUserRole);
+
+  useEffect(() => {
+    let currentWasLogout = store.getState().app.wasLogout;
+    return store.subscribe(() => {
+      const previousWasLogout = currentWasLogout;
+      currentWasLogout = store.getState().app.wasLogout;
+
+      if (currentWasLogout !== previousWasLogout) {
+        reset();
+      }
+    });
+  }, [reset, store]);
+
   const onSubmit = ({ login, password }) => {
     server.authorize(login, password).then(({ error, res }) => {
       if (error) {
@@ -61,12 +80,16 @@ export const AuthorizationContainer = ({ className }) => {
         return;
       }
 
-      dispatch(setUser(res) )
+      dispatch(setUser(res));
     });
   };
 
   const formError = errors?.login?.message || errors?.password?.message;
   const errorMessage = formError || serverError;
+
+  if (roleId !== ROLE.GUEST) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className={className}>
