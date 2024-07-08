@@ -33,8 +33,9 @@ export const server = {
       },
     };
   },
-  async registration(regLogin, regPassword) {
+  async register(regLogin, regPassword) {
     const user = await getUser(regLogin);
+    await console.log(user);
 
     if (user) {
       return {
