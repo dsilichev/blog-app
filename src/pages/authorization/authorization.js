@@ -2,14 +2,15 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../bff';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Input, Button, H2 } from '../../components';
+import { AuthFormError, Input, Button, H2 } from '../../components';
 import { setUser } from '../../actions';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUserRole } from '../../selectors';
 import { ROLE } from '../../constants';
+import { useResetForm } from '../../hooks';
 
 const authFormSchema = yup.object().shape({
   login: yup
@@ -32,13 +33,6 @@ const StyledLink = styled(Link)`
   margin-top: 10px;
 `;
 
-const ErrorMessage = styled.div`
-  width: 100%;
-  padding: 10px;
-  background-color: #fcadad;
-  font-size: 18px;
-`;
-
 export const AuthorizationContainer = ({ className }) => {
   const {
     register,
@@ -57,21 +51,9 @@ export const AuthorizationContainer = ({ className }) => {
 
   const dispatch = useDispatch();
 
-  const store = useStore();
-
   const roleId = useSelector(selectUserRole);
 
-  useEffect(() => {
-    let currentWasLogout = store.getState().app.wasLogout;
-    return store.subscribe(() => {
-      const previousWasLogout = currentWasLogout;
-      currentWasLogout = store.getState().app.wasLogout;
-
-      if (currentWasLogout !== previousWasLogout) {
-        reset();
-      }
-    });
-  }, [reset, store]);
+  useResetForm(reset);
 
   const onSubmit = ({ login, password }) => {
     server.authorize(login, password).then(({ error, res }) => {
@@ -112,7 +94,7 @@ export const AuthorizationContainer = ({ className }) => {
         <Button type="submit" disabled={!!formError}>
           Авторизоваться
         </Button>
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        {errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
         <StyledLink to="/register">Регистрация</StyledLink>
       </form>
     </div>

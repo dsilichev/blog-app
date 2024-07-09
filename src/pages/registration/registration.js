@@ -2,14 +2,15 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../bff';
-import { useEffect, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Input, Button, H2 } from '../../components';
+import { AuthFormError, Input, Button, H2 } from '../../components';
 import { setUser } from '../../actions';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUserRole } from '../../selectors';
 import { ROLE } from '../../constants';
+import { useResetForm } from '../../hooks';
 
 const regFormSchema = yup.object().shape({
   login: yup
@@ -30,13 +31,6 @@ const regFormSchema = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'Повтор пароля не совпадает'),
 });
 
-const ErrorMessage = styled.div`
-  width: 100%;
-  padding: 10px;
-  background-color: #fcadad;
-  font-size: 18px;
-`;
-
 export const RegistrationContainer = ({ className }) => {
   const {
     register,
@@ -56,21 +50,9 @@ export const RegistrationContainer = ({ className }) => {
 
   const dispatch = useDispatch();
 
-  const store = useStore();
-
   const roleId = useSelector(selectUserRole);
 
-  useEffect(() => {
-    let currentWasLogout = store.getState().app.wasLogout;
-    return store.subscribe(() => {
-      const previousWasLogout = currentWasLogout;
-      currentWasLogout = store.getState().app.wasLogout;
-
-      if (currentWasLogout !== previousWasLogout) {
-        reset();
-      }
-    });
-  }, [reset, store]);
+  useResetForm(reset);
 
   const onSubmit = ({ login, password }) => {
     server.register(login, password).then(({ error, res }) => {
@@ -118,7 +100,7 @@ export const RegistrationContainer = ({ className }) => {
         <Button type="submit" disabled={!!formError}>
           Зарегистрироваться
         </Button>
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        {errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
       </form>
     </div>
   );
