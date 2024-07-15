@@ -1,48 +1,52 @@
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { H2 } from '../../components';
-import { ROLE } from '../../constants';
+import { Content, H2 } from '../../components';
 import { UserRow, TableRow } from './components';
 import { useServerRequest } from '../../hooks';
-import { server } from '../../bff';
 import { useEffect, useState } from 'react';
 
 const UsersContainer = ({ className }) => {
+  const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
-  const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState(null);
   const requestServer = useServerRequest();
-  const users = [];
 
   useEffect(() => {
-    requestServer('fetchRoles').then(({ error, res }) => {
-      if (error) {
-        return;
-      }
-
-      setRoles(res);
-    });
+    Promise.all([requestServer('fetchUsers'), requestServer('fetchRoles')]).then(
+      ([usersRes, rolesRes]) => {
+        if (usersRes.error || rolesRes.error) {
+          setErrorMessage(usersRes.error || rolesRes.error);
+          return;
+        }
+        console.log(usersRes);
+        setUsers(usersRes.res);
+        setRoles(rolesRes.res);
+      },
+    );
+    
   }, [requestServer]);
 
   return (
     <div className={className}>
-      <H2>Пользователи</H2>
-      <div>
-        <TableRow>
-          <div className="login-column">Логин</div>
-          <div className="registered-at-column">Дата регистрации</div>
-          <div className="role-column">Роль</div>
-        </TableRow>
+      <Content error={errorMessage}>
+        <H2>Пользователи</H2>
+        <div>
+          <TableRow>
+            <div className="login-column">Логин</div>
+            <div className="registered-at-column">Дата регистрации</div>
+            <div className="role-column">Роль</div>
+          </TableRow>
 
-        {users.map(({ id, login, registeredAt, roleId }) => (
-          <UserRow
-            key={id}
-            login={login}
-            registeredAt={registeredAt}
-            roleId={roleId}
-            roles={roles}
-          />
-        ))}
-      </div>
+          {users.map(({ id, login, registeredAt, roleId }) => (
+            <UserRow
+              key={id}
+              login={login}
+              registeredAt={registeredAt}
+              roleId={roleId}
+              roles={roles}
+            />
+          ))}
+        </div>
+      </Content>
     </div>
   );
 };
