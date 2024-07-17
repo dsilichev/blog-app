@@ -20,20 +20,6 @@
       "registered_at": "2042-10-23 06:13",
       "role_id": 2,
       "id": "OXD7KHT"
-    },
-    {
-      "login": "anton2",
-      "password": "1234567",
-      "registered_at": "2041-03-06 15:20",
-      "role_id": 2,
-      "id": "FroCmkR"
-    },
-    {
-      "login": "anton3",
-      "password": "1234567",
-      "registered_at": "2054-10-17 17:57",
-      "role_id": 2,
-      "id": "m1fycs6"
     }
   ],
   "roles": [

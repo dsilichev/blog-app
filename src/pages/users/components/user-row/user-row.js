@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useServerRequest } from '../../../../hooks';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Icon } from '../../../../components';
 import { TableRow } from '../table-row/table-row';
@@ -12,6 +11,7 @@ const UserRowContainer = ({
   registeredAt,
   roleId: userRoleId,
   roles,
+  onUserRemove,
 }) => {
   const [initialRoleId, setInitialRoleId] = useState(userRoleId);
   const requestServer = useServerRequest();
@@ -50,7 +50,7 @@ const UserRowContainer = ({
           />
         </div>
       </TableRow>
-      <Icon id="fa-trash-alt" margin="0 0 0 10px" onClick={() => {}} />
+      <Icon id="fa-trash-alt" margin="0 0 0 10px" onClick={onUserRemove} />
     </div>
   );
 };
