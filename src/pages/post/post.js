@@ -12,7 +12,7 @@ const PostContainer = ({ className }) => {
   const params = useParams();
   const requestServer = useServerRequest();
   const post = useSelector(selectPost);
-  console.log(post);
+  
   useEffect(() => {
     dispatch(loadPostAsync(requestServer, params.id));
   }, [requestServer, dispatch, params.id]);
@@ -20,7 +20,7 @@ const PostContainer = ({ className }) => {
   return (
     <div className={className}>
       <PostContent post={post} />
-      <Comments comments={post.comments} />
+      <Comments comments={post.comments} postId={post.id} />
     </div>
   );
 };

@@ -10,7 +10,7 @@ export const sessions = {
   },
   access(hash, accessRoles) {
     const user = this.list[hash];
-  
+    console.log('user', user);
     return !!user && accessRoles.includes(user.roleId);
   },
 }
