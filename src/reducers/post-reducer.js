@@ -12,10 +12,6 @@ const initialPostState = {
 export const postReducer = (state = initialPostState, action) => {
   switch (action.type) {
     case ACTION_TYPE.SET_POST_DATA:
-      console.log({
-        ...state,
-        ...action.payload,
-      })
       return {
         ...state,
         ...action.payload,

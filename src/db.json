@@ -91,5 +91,47 @@
       "published_at": "2043-06-08"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "author_id": "001",
+      "post_id": "001",
+      "content": "апраотпртьо",
+      "published_at": "2037-10-08 08:51",
+      "id": 1
+    },
+    {
+      "author_id": "001",
+      "post_id": "001",
+      "content": "второй комментарий",
+      "published_at": "2046-11-28 19:57",
+      "id": 2
+    },
+    {
+      "author_id": "001",
+      "post_id": "001",
+      "content": "Новый комментарий",
+      "published_at": "2042-01-01 04:43",
+      "id": 3
+    },
+    {
+      "author_id": "001",
+      "post_id": "001",
+      "content": "еще комментарий",
+      "published_at": "2040-08-27 09:59",
+      "id": 4
+    }
+  ],
+  "sessions": [
+    {
+      "user": {
+        "id": "001",
+        "login": "anton",
+        "password": "1234567",
+        "registeredAt": "2050-09-22",
+        "roleId": 0
+      },
+      "hash": "0.40010976432726019780261594860348850488662719726563",
+      "id": 1
+    }
+  ]
 }
