@@ -19,7 +19,6 @@ const CommentContainer = ({ className, id, postId, author, publishedAt, content 
         onCancel: () => dispatch(CLOSE_MODAL),
       }),
     );
-    
   };
 
   return (
