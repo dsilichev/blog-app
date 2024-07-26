@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Icon, Input } from '../../../../components';
 import { SpecialPanel } from '../special-panel/special-panel';
 import { sanitizeContent } from './utils';
+import { savePostAsync } from '../../../../actions';
+import { useServerRequest } from '../../../../hooks';
 
 const PostFormContainer = ({
   className,
@@ -12,15 +16,27 @@ const PostFormContainer = ({
   const titleRef = useRef(null);
   const contentRef = useRef(null);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const requestServer = useServerRequest();
+
   const onSave = () => {
-    const newImageRef = imageRef.current.value;
-    const newTitleRef = titleRef.current.value;
-    const newContentRef = sanitizeContent(contentRef.current.innerHTML);
+    const newImageUrl = imageRef.current.value;
+    const newTitle = titleRef.current.value;
+    const newContent = sanitizeContent(contentRef.current.innerHTML);
 
+    dispatch(
+      savePostAsync(requestServer, {
+        id,
+        imageUrl: newImageUrl,
+        title: newTitle,
+        content: newContent,
+      }),
+    ).then(() => navigate(`/post/${id}`));
 
-    console.log(newImageRef);
-    console.log(newTitleRef);
-    console.log(newContentRef);
+    console.log(newImageUrl);
+    console.log(newTitle);
+    console.log(newContent);
   };
 
   return (

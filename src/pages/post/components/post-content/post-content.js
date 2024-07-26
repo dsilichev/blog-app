@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { Icon, H2 } from '../../../../components';
 import { SpecialPanel } from '../special-panel/special-panel';
+import { useNavigate } from 'react-router-dom';
 
 const PostContentContainer = ({
   className,
   post: { id, title, imageUrl, content, publishedAt },
 }) => {
-  const onEdit = () => {};
+  const navigate = useNavigate();
 
   return (
     <div className={className}>
@@ -16,7 +17,7 @@ const PostContentContainer = ({
         publishedAt={publishedAt}
         margin="-20px 0 20px"
         editButton={
-          <Icon id="fa-edit" margin="0 10px 0 0" size="18px" onClick={onEdit} />
+          <Icon id="fa-edit" margin="0 10px 0 0" size="18px" onClick={() => navigate(`/post/${id}/edit`)} />
         }
       />
       <div className="post-text">{content}</div>
