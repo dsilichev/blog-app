@@ -18,12 +18,7 @@ const PostContentContainer = ({
         publishedAt={publishedAt}
         margin="-20px 0 20px"
         editButton={
-          <Icon
-            id="fa-edit"
-            margin="0 10px 0 0"
-            size="18px"
-            onClick={() => navigate(`/post/${id}/edit`)}
-          />
+          <Icon id="fa-edit" size="18px" onClick={() => navigate(`/post/${id}/edit`)} />
         }
       />
       <div className="post-text">{content}</div>
