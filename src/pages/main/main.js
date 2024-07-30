@@ -8,7 +8,7 @@ const MainContainer = ({ className }) => {
   const requestServer = useServerRequest();
 
   useEffect(() => {
-    requestServer('fetchUsers').then((posts) => {
+    requestServer('fetchPosts').then((posts) => {
       if (posts.error) {
         return;
       }
@@ -19,18 +19,27 @@ const MainContainer = ({ className }) => {
 
   return (
     <div className={className}>
-      {posts.map(({ id, title, imageUrl, publishedAt, commentsCount }) => (
-        <PostCard
-          key={id}
-          id={id}
-          title={title}
-          imageUrl={imageUrl}
-          publishedAt={publishedAt}
-          commentsCount={commentsCount}
-        ></PostCard>
-      ))}
+      <div className="post-list">
+        {posts.map(({ id, title, imageUrl, publishedAt, commentsCount }) => (
+          <PostCard
+            key={id}
+            id={id}
+            title={title}
+            imageUrl={imageUrl}
+            publishedAt={publishedAt}
+            commentsCount={commentsCount}
+          ></PostCard>
+        ))}
+      </div>
     </div>
   );
 };
 
-export const Main = styled(MainContainer)``;
+export const Main = styled(MainContainer)`
+  & .post-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 40px 40px;
+  }
+`;

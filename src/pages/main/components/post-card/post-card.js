@@ -10,13 +10,12 @@ const PostCardContainer = ({
   publishedAt,
   commentsCount,
 }) => {
-  console.log(publishedAt);
   return (
     <div className={className}>
       <Link to={`post/${id}`}>
         <img src={imageUrl} alt={title} />
         <div className="post-card-footer">
-          <h3>{title}</h3>
+          <h4>{title}</h4>
           <div className="post-card-info">
             <div className="published-at">
               <Icon id="fa-calendar" margin="0 10px 0 0" size="18px" cursor="default" />
@@ -33,4 +32,14 @@ const PostCardContainer = ({
   );
 };
 
-export const PostCard = styled(PostCardContainer)``;
+export const PostCard = styled(PostCardContainer)`
+  display: flex;
+  flex-direction: column;
+  
+  width: 280px;
+  border: 1px solid #000;
+
+  & img {
+    display: block;
+  }
+`;
