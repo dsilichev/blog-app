@@ -19,11 +19,12 @@ const MainContainer = ({ className }) => {
 
   return (
     <div className={className}>
-      {posts.map(({ id, title, publishedAt, commentsCount }) => (
+      {posts.map(({ id, title, imageUrl, publishedAt, commentsCount }) => (
         <PostCard
           key={id}
           id={id}
           title={title}
+          imageUrl={imageUrl}
           publishedAt={publishedAt}
           commentsCount={commentsCount}
         ></PostCard>
