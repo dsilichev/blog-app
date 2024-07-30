@@ -5,7 +5,6 @@ import { Comments, PostContent, PostForm } from './components';
 import { useServerRequest } from '../../hooks';
 import styled from 'styled-components';
 import { loadPostAsync, RESET_POST_DATA } from '../../actions';
-import { initialPostState } from '../../reducers';
 import { selectPost } from '../../selectors';
 
 const PostContainer = ({ className }) => {
@@ -34,7 +33,7 @@ const PostContainer = ({ className }) => {
         <PostForm post={post} />
       ) : (
         <>
-          <PostContent post={isCreating ? initialPostState : post} />
+          <PostContent post={ post} />
           <Comments comments={post.comments} postId={post.id} />
         </>
       )}
