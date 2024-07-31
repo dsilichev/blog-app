@@ -41,5 +41,33 @@ export const PostCard = styled(PostCardContainer)`
 
   & img {
     display: block;
+    width: 100%;
+  }
+
+  & .post-card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+    border-top: 1px solid #000;
+  }
+
+  & .post-card-footer h4 {
+    margin: 0;
+  }
+
+  & .post-card-info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & .published-at {
+    display: flex;
+    align-items: center;
+  }
+
+  & .comments-count {
+    display: flex;
+    align-items: center;
   }
 `;
