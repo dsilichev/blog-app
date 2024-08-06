@@ -1,13 +1,16 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMatch, useParams } from 'react-router-dom';
 import { Comments, PostContent, PostForm } from './components';
+import { Error } from '../../components';
 import { useServerRequest } from '../../hooks';
 import styled from 'styled-components';
 import { loadPostAsync, RESET_POST_DATA } from '../../actions';
 import { selectPost } from '../../selectors';
 
 const PostContainer = ({ className }) => {
+  const [error, setError] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const params = useParams();
   const isEditing = useMatch('/post/:id/edit');
@@ -21,19 +24,29 @@ const PostContainer = ({ className }) => {
 
   useEffect(() => {
     if (isCreating) {
+      setIsLoading(false);
       return;
     }
 
-    dispatch(loadPostAsync(requestServer, params.id));
+    dispatch(loadPostAsync(requestServer, params.id)).then((postData) => {
+      setError(postData.error);
+      setIsLoading(false);
+    });
   }, [requestServer, dispatch, params.id, isCreating]);
 
-  return (
+  if (isLoading) {
+    return null;
+  }
+
+  return error ? (
+    <Error error={error} />
+  ) : (
     <div className={className}>
       {isEditing || isCreating ? (
         <PostForm post={post} />
       ) : (
         <>
-          <PostContent post={ post} />
+          <PostContent post={post} />
           <Comments comments={post.comments} postId={post.id} />
         </>
       )}
