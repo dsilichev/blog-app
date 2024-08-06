@@ -18,6 +18,9 @@ export const Pagination = styled(PaginationContainer)`
   padding: 0 40px;
   justify-content: center;
   gap: 20px;
+  position: absolute;
+  width: 100%;
+  bottom: 140px;
 
   & > * {
     flex: 1;
