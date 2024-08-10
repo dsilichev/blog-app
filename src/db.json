@@ -18,7 +18,7 @@
       "login": "ivan2",
       "password": "1234567",
       "registered_at": "2042-10-23 06:13",
-      "role_id": 2,
+      "role_id": 1,
       "id": "OXD7KHT"
     }
   ],
@@ -114,11 +114,25 @@
   ],
   "comments": [
     {
-      "author_id": "001",
+      "author_id": "OXD7KHT",
       "post_id": "001",
-      "content": "zcsdfsd",
-      "published_at": "2041-07-30 20:58",
-      "id": 1
+      "content": "hbh",
+      "published_at": "2058-11-28 20:01",
+      "id": 3
+    },
+    {
+      "author_id": "OXD7KHT",
+      "post_id": "001",
+      "content": "jhbjhb",
+      "published_at": "2057-06-29 10:15",
+      "id": 4
+    },
+    {
+      "author_id": "OXD7KHT",
+      "post_id": "001",
+      "content": "jhbh",
+      "published_at": "2044-07-14 09:30",
+      "id": 5
     }
   ],
   "sessions": [
@@ -135,13 +149,13 @@
     },
     {
       "user": {
-        "id": "001",
-        "login": "anton",
+        "id": "OXD7KHT",
+        "login": "ivan2",
         "password": "1234567",
-        "registeredAt": "2050-09-22",
-        "roleId": 0
+        "registeredAt": "2042-10-23 06:13",
+        "roleId": 1
       },
-      "hash": "0.58199022047740212038036133890273049473762512207031",
+      "hash": "0.17246446754415911684077400423120707273483276367188",
       "id": 3
     }
   ]

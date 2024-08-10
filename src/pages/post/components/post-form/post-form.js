@@ -39,7 +39,6 @@ const PostFormContainer = ({
   };
 
   const onImageChange = ({ target }) => {
-    console.log(target);
     setImageUrlValue(target.value);
   };
   const onTitleChange = ({ target }) => setTitleValue(target.value);
