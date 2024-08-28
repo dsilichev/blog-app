@@ -42,6 +42,12 @@ export const Blog = () => {
     );
   }, [dispatch]);
 
+  useLayoutEffect(() => {
+    fetch('/api/posts')
+      .then((res) => res.json())
+      .then(console.log);
+  }, []);
+
   return (
     <>
       <AppColumn>
@@ -55,7 +61,7 @@ export const Blog = () => {
             <Route path="/post" element={<Post />} />
             <Route path="/post/:id" element={<Post />} />
             <Route path="/post/:id/edit" element={<Post />} />
-            
+
             <Route path="*" element={<Error error={ERROR.PAGE_NOT_EXIST} />} />
           </Routes>
         </Page>
