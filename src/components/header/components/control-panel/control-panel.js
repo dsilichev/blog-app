@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   selectUserRole,
   selectUserLogin,
-  selectUserSession,
 } from '../../../../selectors';
 import { logout } from '../../../../actions';
 import { checkAccess } from '../../../../utils';
@@ -28,7 +27,6 @@ const ControlPanelContainer = ({ className }) => {
 
   const roleId = useSelector(selectUserRole);
   const login = useSelector(selectUserLogin);
-  const session = useSelector(selectUserSession);
 
   const isAdmin = checkAccess([ROLE.ADMIN], roleId);
 
@@ -45,7 +43,7 @@ const ControlPanelContainer = ({ className }) => {
             <Icon
               id="fa-sign-out-alt"
               margin="0 0 0 10px"
-              onClick={() => dispatch(logout(session))}
+              onClick={() => dispatch(logout())}
             />
           </>
         )}

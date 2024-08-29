@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Pagination, PostCard, Search } from './components';
-import { useServerRequest } from '../../hooks';
 import { PAGINATION_LIMIT } from '../../constants';
-import { getLastPageFromLinks, debounce } from './utils';
+import { debounce } from './utils';
+import { request } from '../../utils';
 
 const MainContainer = ({ className }) => {
   const [posts, setPosts] = useState([]);
@@ -11,15 +11,15 @@ const MainContainer = ({ className }) => {
   const [lastPage, setLastPage] = useState(1);
   const [searchPhrase, setSearchPhrase] = useState('');
   const [shouldSearch, setShouldSearch] = useState(false);
-  const requestServer = useServerRequest();
+
 
   useEffect(() => {
-    requestServer('fetchPosts', searchPhrase, page, PAGINATION_LIMIT).then((response) => {
-      setPosts(response.res.posts);
-      setLastPage(getLastPageFromLinks(response.res.links));
+    request(`/api/posts?searsh=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}`, ).then(({data: {posts, lastPage}}) => {
+      setPosts(posts);
+      setLastPage(lastPage);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [requestServer, page, shouldSearch]);
+  }, [page, shouldSearch]);
 
   const startDelayedSearch = useMemo(() => debounce(setShouldSearch, 2000), []);
 
@@ -34,14 +34,14 @@ const MainContainer = ({ className }) => {
         <Search searchPhrase={searchPhrase} onChange={onSearch} />
         {posts.length > 0 ? (
           <div className="post-list">
-            {posts.map(({ id, title, imageUrl, publishedAt, commentsCount }) => (
+            {posts.map(({ id, title, imageUrl, publishedAt, comments }) => (
               <PostCard
                 key={id}
                 id={id}
                 title={title}
                 imageUrl={imageUrl}
                 publishedAt={publishedAt}
-                commentsCount={commentsCount}
+                commentsCount={comments.length}
               ></PostCard>
             ))}
           </div>

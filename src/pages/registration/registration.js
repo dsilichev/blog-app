@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { server } from '../../bff';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserRole } from '../../selectors';
 import { ROLE } from '../../constants';
 import { useResetForm } from '../../hooks';
+import { request } from '../../utils';
 
 const regFormSchema = yup.object().shape({
   login: yup
@@ -55,18 +55,19 @@ export const RegistrationContainer = ({ className }) => {
   useResetForm(reset);
 
   const onSubmit = ({ login, password }) => {
-    server.register(login, password).then(({ error, res }) => {
+    request('/api/register', 'POST', { login, password }).then(({ error, user }) => {
       if (error) {
         setServerError(`Ошибка запроса: ${error}`);
         return;
       }
 
-      dispatch(setUser(res));
-      sessionStorage.setItem('userData', JSON.stringify(res));
+      dispatch(setUser(user));
+      sessionStorage.setItem('userData', JSON.stringify(user));
     });
   };
 
-  const formError = errors?.login?.message || errors?.password?.message || errors?.passcheck?.message;
+  const formError =
+    errors?.login?.message || errors?.password?.message || errors?.passcheck?.message;
   const errorMessage = formError || serverError;
 
   if (roleId !== ROLE.GUEST) {

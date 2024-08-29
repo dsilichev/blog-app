@@ -42,12 +42,6 @@ export const Blog = () => {
     );
   }, [dispatch]);
 
-  useLayoutEffect(() => {
-    fetch('/api/posts')
-      .then((res) => res.json())
-      .then(console.log);
-  }, []);
-
   return (
     <>
       <AppColumn>
