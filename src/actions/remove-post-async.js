@@ -1,2 +1,4 @@
-export const removePostAsync = (requestServer, id) => (dispatch) =>
-  requestServer('removePost', id);
+import { request } from '../utils';
+
+export const removePostAsync = (id) => (dispatch) =>
+  request(`/api/posts/${id}`, 'DELETE');

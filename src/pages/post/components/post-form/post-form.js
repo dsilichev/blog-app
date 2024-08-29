@@ -6,7 +6,6 @@ import { Icon, Input } from '../../../../components';
 import { SpecialPanel } from '../special-panel/special-panel';
 import { sanitizeContent } from './utils';
 import { savePostAsync } from '../../../../actions';
-import { useServerRequest } from '../../../../hooks';
 import { PROP_TYPE } from '../../../../constants';
 
 const PostFormContainer = ({
@@ -24,14 +23,12 @@ const PostFormContainer = ({
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const requestServer = useServerRequest();
 
   const onSave = () => {
     const newContent = sanitizeContent(contentRef.current.innerHTML);
 
     dispatch(
-      savePostAsync(requestServer, {
-        id,
+      savePostAsync(id, {
         imageUrl: imageUrlValue,
         title: titleValue,
         content: newContent,
