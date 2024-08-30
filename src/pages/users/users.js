@@ -4,7 +4,7 @@ import { UserRow, TableRow } from './components';
 import { useServerRequest } from '../../hooks';
 import { useEffect, useState } from 'react';
 import { ROLE } from '../../constants';
-import { checkAccess } from '../../utils';
+import { checkAccess, request } from '../../utils';
 import { useSelector } from 'react-redux';
 import { selectUserRole } from '../../selectors';
 
@@ -21,25 +21,25 @@ const UsersContainer = ({ className }) => {
       return;
     }
 
-    Promise.all([requestServer('fetchUsers'), requestServer('fetchRoles')]).then(
+    Promise.all([request('/api/users'), request('/api/users/roles')]).then(
       ([usersRes, rolesRes]) => {
         if (usersRes.error || rolesRes.error) {
           setErrorMessage(usersRes.error || rolesRes.error);
           return;
         }
 
-        setUsers(usersRes.res);
-        setRoles(rolesRes.res);
+        setUsers(usersRes.data);
+        setRoles(rolesRes.data);
       },
     );
-  }, [requestServer, shouldUpdateUserList, userRole]);
+  }, [shouldUpdateUserList, userRole]);
 
   const onUserRemove = (userId) => {
     if (!checkAccess([ROLE.ADMIN], userRole)) {
       return;
     }
 
-    requestServer('removeUser', userId).then(() => {
+    request(`/api/users/${userId}`, 'DELETE').then(() => {
       setShouldUpdateUserList(!shouldUpdateUserList);
     });
   };
